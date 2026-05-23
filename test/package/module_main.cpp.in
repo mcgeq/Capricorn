@@ -1,0 +1,6 @@
+import @template_module_name@;
+
+auto main() -> int
+{
+  return @TEMPLATE_LIBRARY_NAMESPACE@::greeting().empty() ? 1 : 0;
+}

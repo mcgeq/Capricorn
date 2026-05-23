@@ -1,0 +1,6 @@
+#include <@TEMPLATE_INCLUDE_DIR_NAME@/@TEMPLATE_LIBRARY_BASENAME@.hpp>
+
+auto main() -> int
+{
+  return @TEMPLATE_LIBRARY_NAMESPACE@::greeting().empty() ? 1 : 0;
+}
