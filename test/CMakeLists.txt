@@ -53,9 +53,15 @@ set_tests_properties(
 set(
     template_package_configure_command
     "${CMAKE_COMMAND}"
+    -S
+    "${template_package_source_dir}"
+    -B
+    "${template_package_build_dir}"
     --fresh
     -G
     "${CMAKE_GENERATOR}"
+    -D
+    "CMAKE_PREFIX_PATH=${package_prefix}"
 )
 if(CMAKE_GENERATOR_PLATFORM)
   list(APPEND template_package_configure_command -A "${CMAKE_GENERATOR_PLATFORM}")
@@ -63,24 +69,29 @@ endif()
 if(CMAKE_GENERATOR_TOOLSET)
   list(APPEND template_package_configure_command -T "${CMAKE_GENERATOR_TOOLSET}")
 endif()
-if(CMAKE_CXX_COMPILER)
-  list(APPEND template_package_configure_command -D "CMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}")
+if(CMAKE_CONFIGURATION_TYPES)
+  list(
+      APPEND
+      template_package_configure_command
+      -D
+      "CMAKE_CONFIGURATION_TYPES=${CMAKE_CONFIGURATION_TYPES}"
+  )
+else()
+  list(
+      APPEND
+      template_package_configure_command
+      -D
+      "CMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}"
+  )
+  if(CMAKE_CXX_COMPILER)
+    list(
+        APPEND
+        template_package_configure_command
+        -D
+        "CMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}"
+    )
+  endif()
 endif()
-if(CMAKE_MAKE_PROGRAM)
-  list(APPEND template_package_configure_command -D "CMAKE_MAKE_PROGRAM=${CMAKE_MAKE_PROGRAM}")
-endif()
-list(
-    APPEND
-    template_package_configure_command
-    -S
-    "${template_package_source_dir}"
-    -B
-    "${template_package_build_dir}"
-    -D
-    "CMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}"
-    -D
-    "CMAKE_PREFIX_PATH=${package_prefix}"
-)
 
 add_test(
     NAME "${PROJECT_NAME}.package.configure"

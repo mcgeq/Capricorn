@@ -30,11 +30,22 @@ The checked-in template follows that policy today:
 
 ## Recommended Presets
 
-Build just the library and example CLI with the repository's default local
-toolchain path:
+Build the primary cross-platform release target:
 
 ```sh
 cmake --workflow --preset default-release
+```
+
+This is the main release path for Linux, macOS, and Windows environments that
+provide `g++`. The CLI output is:
+
+- `build/default-release-gcc/<project-name>` on Linux and macOS
+- `build/default-release-gcc/<project-name>.exe` on Windows
+
+Build a release artifact and run the developer-mode test suite:
+
+```sh
+cmake --workflow --preset dev-release
 ```
 
 On Windows with a full Visual Studio 2022 installation, use:
@@ -42,6 +53,8 @@ On Windows with a full Visual Studio 2022 installation, use:
 ```sh
 cmake --workflow --preset msvc-release
 ```
+
+That produces `build/msvc-release/Release/<project-name>.exe`.
 
 Build with developer mode enabled, including tests:
 
@@ -166,20 +179,24 @@ you where to look:
 - `default-debug` -> `build/default-debug-gcc/`
 - `default-release` -> `build/default-release-gcc/`
 - `dev-debug` -> `build/dev-debug/`
+- `dev-release` -> `build/dev-release/`
 - `bench-debug` -> `build/bench-debug/`
 - `fuzz-debug` -> `build/fuzz-debug/`
 - `modules-debug` -> `build/modules-debug-clang/`
 - `modules-dev-debug` -> `build/modules-dev-debug-clang/`
 - `msvc-debug` -> `build/msvc-debug/`
+- `msvc-release` -> `build/msvc-release/`
+- `msvc-dev-release` -> `build/msvc-dev-release/`
 
 The sample CLI target is named `<ProjectName>_cli`, but its final executable
 name is normalized to the project name itself. For a renamed project called
-`hello_world`, the common output paths are:
+`hello_world`, the common release output paths are:
 
 - single-config generators (`Unix Makefiles`, `Ninja`):
-  `build/default-debug-gcc/hello_world`
+  `build/default-release-gcc/hello_world` or `build/dev-release/hello_world`
 - Visual Studio generators:
-  `build/msvc-debug/Debug/hello_world.exe`
+  `build/msvc-release/Release/hello_world.exe` or
+  `build/msvc-dev-release/Release/hello_world.exe`
 
 Additional developer-mode binaries keep their target names as file names:
 
@@ -355,8 +372,8 @@ installed-package consumer that imports the named module.
 
 ## Notes
 
-- `default-*` presets are tuned for the local GNU toolchain path used in this
-  repository.
+- `default-*` presets are the primary single-config GNU-style workflows across
+  Linux, macOS, and Windows environments that provide `g++`.
 - `msvc-*` presets are the intended local Visual Studio workflows.
 - `dev-*`, `msvc-dev-*`, `coverage`, `asan`, and `tidy-*` presets expect
   `VCPKG_ROOT` to be set.

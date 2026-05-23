@@ -151,11 +151,12 @@
       "name": "modules-dev-debug",
       "displayName": "Clang Ninja Developer Debug With C++23 Modules",
       "binaryDir": "${sourceDir}/build/modules-dev-debug-clang",
-      "inherits": ["base-single-config", "developer-mode", "vcpkg-mingw", "modules-enabled"],
+      "inherits": ["base-single-config", "developer-mode", "vcpkg", "modules-enabled"],
       "generator": "Ninja",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Debug",
-        "CMAKE_CXX_COMPILER": "clang++"
+        "CMAKE_CXX_COMPILER": "clang++",
+        "VCPKG_TARGET_TRIPLET": "x64-windows"
       }
     },
     {
@@ -238,10 +239,14 @@
       "name": "fuzz-debug",
       "displayName": "Developer Debug With Fuzz Targets",
       "binaryDir": "${sourceDir}/build/fuzz-debug",
-      "inherits": ["base-single-config", "developer-mode-fuzz", "vcpkg-mingw"],
+      "inherits": ["base-single-config", "developer-mode-fuzz", "vcpkg"],
       "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "Debug",
-        "CMAKE_CXX_COMPILER": "clang++"
+        "BUILD_TESTING": "OFF",
+        "CMAKE_BUILD_TYPE": "RelWithDebInfo",
+        "CMAKE_CXX_COMPILER": "clang++",
+        "CMAKE_MSVC_RUNTIME_LIBRARY": "MultiThreaded",
+        "VCPKG_MANIFEST_FEATURES": "fuzz",
+        "VCPKG_TARGET_TRIPLET": "x64-windows"
       }
     },
     {

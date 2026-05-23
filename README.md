@@ -21,12 +21,17 @@ opt-in developer tooling, and cross-platform CI.
 
 ## Quickstart
 
-Build the library and example executable without developer-only dependencies.
-The checked-in default path uses `g++` plus `Unix Makefiles`:
+Build the primary cross-platform release target without developer-only
+dependencies. The checked-in default path uses `g++` plus `Unix Makefiles`:
 
 ```sh
-cmake --workflow --preset default-debug
+cmake --workflow --preset default-release
 ```
+
+That produces:
+
+- `build/default-release-gcc/<project-name>` on Linux and macOS
+- `build/default-release-gcc/<project-name>.exe` on Windows
 
 Enable tests and the rest of the developer workflow through vcpkg:
 
@@ -34,10 +39,22 @@ Enable tests and the rest of the developer workflow through vcpkg:
 cmake --workflow --preset dev-debug
 ```
 
+Build a release artifact and run the developer-mode test suite:
+
+```sh
+cmake --workflow --preset dev-release
+```
+
+If you want a non-release local build without developer-only dependencies, use:
+
+```sh
+cmake --workflow --preset default-debug
+```
+
 If you are working with MSVC locally, use:
 
 ```sh
-cmake --workflow --preset msvc-debug
+cmake --workflow --preset msvc-release
 ```
 
 If you want to exercise the optional named module target with Clang and Ninja:
@@ -70,21 +87,21 @@ Preset builds write into the `binaryDir` configured in
 - `default-debug` writes to `build/default-debug-gcc/`
 - `default-release` writes to `build/default-release-gcc/`
 - `dev-debug` writes to `build/dev-debug/`
+- `dev-release` writes to `build/dev-release/`
+- `modules-dev-debug` writes to `build/modules-dev-debug-clang/`
 - `modules-debug` writes to `build/modules-debug-clang/`
 - `msvc-debug` writes to `build/msvc-debug/`
+- `msvc-release` writes to `build/msvc-release/`
+- `msvc-dev-release` writes to `build/msvc-dev-release/`
 
 The sample CLI executable uses the project name as its final file name. If your
-project is `hello_world`, a successful `default-debug` build typically produces:
+project is `hello_world`, common release output paths are:
 
 ```text
-build/default-debug-gcc/hello_world
-```
-
-On Visual Studio generators, the executable usually lands under the active
-configuration subdirectory, for example:
-
-```text
-build/msvc-debug/Debug/hello_world.exe
+build/default-release-gcc/hello_world
+build/dev-release/hello_world
+build/msvc-release/Release/hello_world.exe
+build/msvc-dev-release/Release/hello_world.exe
 ```
 
 Other developer binaries follow the target names:
