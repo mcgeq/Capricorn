@@ -3,17 +3,14 @@ import capricorn;
 #include <exception>
 #include <iostream>
 
-namespace
-{
-auto run() -> int
-{
+namespace {
+auto run() -> int {
   std::cout << capricorn::greeting() << '\n';
   return 0;
 }
-} // namespace
+}  // namespace
 
-auto main() noexcept(false) -> int
-{
+auto main() noexcept(false) -> int {
   try {
     return run();
   } catch (const std::exception& ex) {

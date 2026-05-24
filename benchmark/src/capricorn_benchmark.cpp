@@ -1,8 +1,7 @@
-#include <Capricorn/core/greeting.hpp>
 #include <benchmark/benchmark.h>
+#include <Capricorn/core/greeting.hpp>
 
-static void bm_greeting_for(benchmark::State& state)
-{
+static void bm_greeting_for(benchmark::State& state) {
   for (auto _ : state) {
     benchmark::DoNotOptimize(capricorn::greeting_for("benchmark"));
   }

@@ -3,15 +3,12 @@
 
 #include "detail/greeting_builder.hpp"
 
-namespace capricorn
-{
-auto greeting() -> std::string
-{
+namespace capricorn {
+auto greeting() -> std::string {
   return greeting_for(project_name());
 }
 
-auto greeting_for(std::string_view subject) -> std::string
-{
+auto greeting_for(std::string_view subject) -> std::string {
   return detail::build_greeting(subject);
 }
 }  // namespace capricorn
